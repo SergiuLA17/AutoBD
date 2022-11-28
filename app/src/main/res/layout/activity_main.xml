@@ -1,0 +1,104 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+       tools:context=".MainActivity" >
+
+
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+    <Button
+            android:id="@+id/createDB"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:onClick="createDB"
+            android:text="Create new DB"/>
+    <Button
+            android:id="@+id/createTab"
+            android:layout_width="103dp"
+            android:layout_height="wrap_content"
+            android:onClick="createTAB"
+            android:text="Create tab"/>
+    <Button
+            android:id="@+id/fillTab"
+            android:layout_width="106dp"
+            android:layout_height="wrap_content"
+            android:onClick="fillTAB"
+            android:text="Fill the Tab"/>
+    <Button
+            android:id="@+id/studLista"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="studL"
+            android:text="Sales list"/>
+
+
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:text="Daca doriti sa incarcati o baza de data noua, dupa ce ait facut upload la fisiere accesati butoanele in ordinea urmatoare     Create BD> Create Tab > Fill the tab. Pentru a vizualiza informati deja salvata accesati buttonul 'Sales List'"/>
+        <EditText
+            android:id="@+id/editText1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="editText1" >
+
+        <requestFocus />
+    </EditText>
+<EditText
+            android:id="@+id/editText2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="editText1" >
+
+        <requestFocus />
+    </EditText>
+    <EditText
+            android:id="@+id/editText3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:text="editText1" >
+
+        <requestFocus />
+    </EditText>
+       <EditText
+           android:id="@+id/txtData"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:ems="10"
+           android:text="txtData" />
+        
+    </LinearLayout>
+
+    <GridLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+
+</GridLayout>
+    <Button
+            android:id="@+id/SaveData"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="SaveData"
+            android:text="Save Data"/>
+
+
+</LinearLayout>
+
+
