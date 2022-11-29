@@ -1,4 +1,4 @@
-package com.example.proftest;
+package com.example.proftest.Models;
 
 import org.jetbrains.annotations.NotNull;
 

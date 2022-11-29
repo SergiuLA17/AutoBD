@@ -1,47 +1,43 @@
-package com.example.proftest;
+package com.example.proftest.Services;
 
-import java.io.IOException;
+import com.example.proftest.Models.Key;
+import com.example.proftest.Models.Tables;
+import com.example.proftest.SaveData.DeserializableDB;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public class CreateQueryService {
-    ReadFileFieldUI readFileFieldUI = new ReadFileFieldUI();
-    DeserializableDB deserializableDB = new DeserializableDB();
-    ArrayList<Tables> tables = deserializableDB.des();
+public class CreateQuery {
+    private ReadFileFieldUI readFileFieldUI = new ReadFileFieldUI();
+    private DeserializableDB deserializableDB = new DeserializableDB();
+    private ArrayList<Tables> tables = deserializableDB.des();
     //keyle prezente in baza de date
-    ArrayList<Key> keyList = new ArrayList<>();
+    private ArrayList<Key> keyList = new ArrayList<>();
     //fieldurile cdrute e utilizator
-    LinkedHashMap<String, List<String>> fieldUIMap = new LinkedHashMap<>();
+    private LinkedHashMap<String, List<String>> fieldUIMap = new LinkedHashMap<>();
     //perechile de chei
-    LinkedHashMap<String, String> keys = new LinkedHashMap<>();
+    private LinkedHashMap<String, String> keys = new LinkedHashMap<>();
     //subdenumirile tabelelor
-    HashMap<String, String> subnameTables = new HashMap<>();
+    private HashMap<String, String> subnameTables = new HashMap<>();
     //lista de tabele pentru join
     List<String> listOfFieldsUI = new ArrayList<>();
     //lista de tabele pentru select
     List<String> listOfTableUI = new ArrayList<>();
-    //filed-table map
-    HashMap<String, String> fieldTable = new HashMap<>();
-    String selectTable;
 
-    String foreignKey;
-    String foreignKeyTableName;
+    private String selectTable;
 
-    StringBuilder selectGenerate = new StringBuilder().append("select ");
-    StringBuilder joingenerate = new StringBuilder();
+    private  String foreignKey;
+    private String foreignKeyTableName;
 
-    public void createFieldTableHashMap() {
-        for (Tables table : tables) {
-            for (int i = 0; i < table.getListOfTableFields().size(); i++) {
-                fieldTable.put(table.getListOfTableFields().get(i), table.getName());
-            }
-        }
-    }
+    private StringBuilder selectGenerate = new StringBuilder().append("select ");
+    private StringBuilder joingenerate = new StringBuilder();
+
+
 
     //cream keyList pentru baza incarcata
-    public void createKeys() {
+    private void generatePareOfKeysFromDB() {
         boolean hasForeignKey = false;
         for (Tables table : tables) {
             for (int j = 0; j < table.getListOfTableFields().size(); j++) {
@@ -49,7 +45,7 @@ public class CreateQueryService {
                 String fieldName = table.getListOfTableFields().get(j);
                 String id = fieldName.substring(0, 2);
                 if (!id.equals("ID")) {
-                    hasForeignKey = findKeys(fieldName, tableName);
+                    hasForeignKey = findKeysInDB(fieldName, tableName);
                     if (hasForeignKey) {
                         keyList.add(new Key(table.getListOfTableFields().get(j), tableName, foreignKey, foreignKeyTableName));
                     }
@@ -58,9 +54,8 @@ public class CreateQueryService {
         }
     }
 
-
-    //extragem keyurile din baza de date
-    public boolean findKeys(String field, String tableNotSearch) {
+    //cautarea cheilor
+    private boolean findKeysInDB(String field, String tableNotSearch) {
         String fieldName = field.replace("ID", "");
         for (Tables table : tables) {
             if (!table.getName().equals(tableNotSearch)) {
@@ -78,15 +73,14 @@ public class CreateQueryService {
     }
 
     //extragem lista de campuri dorete de utilizator
-
-    public void createtSubnames() {
+    private void createSubnamesForTableNames() {
         subnameTables.put(selectTable, selectTable.toLowerCase().substring(0, 4));
-        for (int i = 0; i < tables.size(); i++) {
-            subnameTables.put(tables.get(i).getName(), tables.get(i).getName().substring(0, 4).toLowerCase());
+        for (Tables table : tables) {
+            subnameTables.put(table.getName(), table.getName().substring(0, 4).toLowerCase());
         }
     }
 
-    public void createHashMapKey() {
+    private void createHashMapKey() {
         StringBuilder key = new StringBuilder();
         for (Key value : keyList) {
             key.setLength(0);
@@ -96,14 +90,14 @@ public class CreateQueryService {
     }
 
     //creem query-ul
-    public void generateQuery() {
+    private void generateQuery() {
         selectGenerate.setLength(0);
         joingenerate.setLength(0);
         selectGenerate.append("select ");
-        createFieldTableHashMap();
-        createtSubnames();
+        createSubnamesForTableNames();
         createHashMapKey();
-//
+
+        //create select
 
         for (int i = 0; i < fieldUIMap.size(); i++) {
             for (int j = 0; j < fieldUIMap.get(listOfTableUI.get(i)).size(); j++) {
@@ -126,10 +120,10 @@ public class CreateQueryService {
             joingenerate.append(" inner join ").append(tableName).append(" as ").append(subName).append(" on ").append(pairOfKey).append(" ");
 
         }
-
     }
 
-    public String createQuery() throws IOException {
+
+    public String createQuery() {
         //citim fisierul unde sunt indicate campurile dorite de utilizator sa fie afisate
         readFileFieldUI.fieldUIProcess();
         fieldUIMap = readFileFieldUI.getFieldUI();
@@ -137,12 +131,8 @@ public class CreateQueryService {
         listOfFieldsUI = readFileFieldUI.getListFieldsForJoin();
         listOfTableUI = readFileFieldUI.getListTableNamesSelect();
 
-        System.out.println("Select table: " + selectTable);
-        System.out.println("Fields for select: " + fieldUIMap);
-        System.out.println("Fields for join: " + listOfFieldsUI);
-        System.out.println("Tables for select: " + listOfTableUI);
 
-        createKeys();
+        generatePareOfKeysFromDB();
         generateQuery();
 
 

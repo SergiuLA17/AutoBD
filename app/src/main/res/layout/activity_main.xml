@@ -48,7 +48,7 @@
                 android:id="@+id/textView1"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
-                android:text="Daca doriti sa incarcati o baza de data noua, dupa ce ait facut upload la fisiere accesati butoanele in ordinea urmatoare     Create BD> Create Tab > Fill the tab. Pentru a vizualiza informati deja salvata accesati buttonul 'Sales List'"/>
+                android:text="Regula pentru baza de date: \n 1) PrimaryKey se creaza cu frefixul ID la incepu \n 2) Foreign Key se creaza cu prefixul ID la sfarsit \n 3) In fisierul FiledUI se inscrie campurile care doriti sa le afisati, primul se inscrie tabelul din care se face select \n Exemplu de creare a fisierului. \nSalesM:IDSales\nAutoM:Age,Type\nBuyerM:BuyerName"/>
         <EditText
             android:id="@+id/editText1"
             android:layout_width="match_parent"
@@ -91,12 +91,7 @@
 
 
 </GridLayout>
-    <Button
-            android:id="@+id/SaveData"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="SaveData"
-            android:text="Save Data"/>
+
 
 
 </LinearLayout>

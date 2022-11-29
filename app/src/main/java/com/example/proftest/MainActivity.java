@@ -14,6 +14,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import com.example.proftest.Models.Tables;
+import com.example.proftest.SaveData.DeserializableDB;
+import com.example.proftest.SaveData.SerializableDB;
+import com.example.proftest.Services.CreateQuery;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -23,8 +27,8 @@ import java.util.Arrays;
 
 @SuppressLint("SdCardPath")
 public class MainActivity extends Activity {
-    String DBName = "CatPrSales5T72";
-    CreateQueryService test = new CreateQueryService();
+    String DBName = "CatPrSales5T76";
+    CreateQuery test = new CreateQuery();
     ArrayList<Tables> tables = new ArrayList<>();
     ArrayList<Tables> tablesForSerializable = new ArrayList<>();
     public DecimalFormat df = new DecimalFormat("#.##");
@@ -262,8 +266,10 @@ public class MainActivity extends Activity {
                 "where " + whereC;
 
 
-        studLista1 = test.createQuery() +
+        String query = test.createQuery() +
                 "where " + whereC;
+        System.out.println(query);
+        studLista1 = query;
 
 
         Cursor c;
